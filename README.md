@@ -2,10 +2,10 @@
 An scalable springboot application that runs on K8 cluster
 
 ## Getting Started
-Pre-requsits:
-Java8
-Docker `v20.10.2` or higher
-Kubernetes `v1.19.3` or higher
+Pre-requisites:
+- Java8
+- Docker `v20.10.2` or higher
+- Kubernetes `v1.19.3` or higher
 
 ### Instructions
 1. Clone the repo and navigate into folder;
