@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 
-import java.net.http.HttpClient;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,6 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TimeCheckerApplicationTests {
+    private static final String URL = "http://localhost:";
+
     @LocalServerPort
     private int port;
 
@@ -35,7 +36,7 @@ class TimeCheckerApplicationTests {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         DateFormat dateFormat = new SimpleDateFormat(TimeChecker.HOUR_12_FORMAT_PATTERN);
         String expectedTime = dateFormat.format(new Date());
-        assertThat(this.restTemplate.exchange("http://localhost:" + port + "/", HttpMethod.GET, entity, String.class).getBody())
+        assertThat(this.restTemplate.exchange(URL + port + "/", HttpMethod.GET, entity, String.class).getBody())
                 .withFailMessage("timeChecker should return 12 hours time for Mobile Devices")
                 .contains(expectedTime);
     }
@@ -44,7 +45,7 @@ class TimeCheckerApplicationTests {
     void timeCheckerShouldReturn24HoursTimeForOtherDevices() {
         DateFormat dateFormat = new SimpleDateFormat(TimeChecker.HOUR_24_FORMAT_PATTERN);
         String expectedTime = dateFormat.format(new Date());
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/", String.class))
+        assertThat(this.restTemplate.getForObject(URL + port + "/", String.class))
                 .withFailMessage("timeChecker should return 24 hours time for Other Devices")
                 .contains(expectedTime);
     }
