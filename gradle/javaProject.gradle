@@ -1,0 +1,69 @@
+apply plugin: "java"
+apply plugin: "com.github.spotbugs"
+apply plugin: 'maven-publish'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+test {
+    useJUnitPlatform()
+
+    afterSuite { suite, result ->
+        result.exception?.printStackTrace()
+    }
+
+    testLogging {
+        // this will only change --warn flag behaviour
+        warn {
+            events = ["failed", "skipped"]
+            exceptionFormat "full"
+        }
+    }
+}
+
+spotbugsMain {
+    ignoreFailures = true
+    effort = "max"
+    reportLevel = "low"
+    reportsDir = file("$project.buildDir/reports/spotbugs")
+    def excludeFile = file("spotbugs-exclude.xml")
+    if (excludeFile.exists()) {
+        it.excludeFilter = excludeFile
+    }
+    reports {
+        text.enabled = true
+    }
+}
+
+spotbugsTest {
+    enabled = false
+}
+
+task validateSpotbugs() {
+    doLast {
+        if (spotbugsMain.reports.size() > 0 &&
+                spotbugsMain.reports[0].destination.exists() &&
+                spotbugsMain.reports[0].destination.text.readLines().size() > 0) {
+            spotbugsMain.reports[0].destination?.eachLine {
+                println 'Failure: ' + it
+            }
+            throw new GradleException("Spotbugs rule violations were found.");
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.name
+            version = project.version
+            from components.java
+        }
+    }
+}
+
+spotbugsMain.finalizedBy validateSpotbugs
