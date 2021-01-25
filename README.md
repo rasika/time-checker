@@ -50,5 +50,10 @@ kubectl set image deploy time-checker-deployment time-checker-deployment=time-ch
 kubectl rollout undo deploy time-checker-deployment
 ```
 
+## Tests & Code Coverage
+- **JUnit Tests** written for the SpringBoot application functionality can be found in package [src/test/java/com/example/demo/](https://github.com/rasika/time-checker/blob/master/src/test/java/com/example/demo/)
+- **Test-coverage** report is available upon command `./gradelw test` and reports will be generated in `build/reports/tests/test/index.html` path.
+- **Code quality** checks are assesed with spot-bugs and reports are generated in `build/reports/spotbugs/main.html` path.
+
 ## License
 This code is distributed under Apache license 2.0.
