@@ -1,6 +1,6 @@
 apply plugin: "java"
 apply plugin: "com.github.spotbugs"
-apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -25,9 +25,15 @@ test {
 }
 
 spotbugsMain {
-    ignoreFailures = true
+    ignoreFailures = false
     effort = "max"
     reportLevel = "low"
+    it.effort "max"
+    it.reportLevel "low"
+    it.reports {
+        xml.enabled false
+        html.enabled true
+    }
     reportsDir = file("$project.buildDir/reports/spotbugs")
     def excludeFile = file("spotbugs-exclude.xml")
     if (excludeFile.exists()) {
@@ -55,15 +61,10 @@ task validateSpotbugs() {
     }
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId project.group
-            artifactId project.name
-            version = project.version
-            from components.java
-        }
+spotbugsMain.finalizedBy validateSpotbugs
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
     }
 }
-
-spotbugsMain.finalizedBy validateSpotbugs
