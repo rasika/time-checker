@@ -1,4 +1,4 @@
-# Time-Checker
+# Time-Checker v1.0.0
 An scalable springboot application that runs on K8 cluster
 
 ## Getting Started
