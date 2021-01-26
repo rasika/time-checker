@@ -54,10 +54,10 @@ kubectl rollout undo deploy time-checker-deployment
 This application is already configured with Prometeus and Grafana using K8 artifacts. You need only to import recommended dashboard(or any dashboard) with few clicks to make this work.
 1. Visit http://localhost:31002/login and login with default user credentials `admin/admin`
 2. Visit http://localhost:31002/dashboard/import and **load** dashboard with id `13625`([preview](https://grafana.com/grafana/dashboards/13625))
-<img alt="load dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/load.png?raw=true" width="640" />
+&nbsp;<img alt="load dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/load.png?raw=true" width="640" />
 
 3. Select datasources as `promethius` for both dropdowns and **import** dashboard
-<img alt="import dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/import.png?raw=true" width="640" />
+&nbsp;<img alt="import dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/import.png?raw=true" width="640" />
 
 4. Enjoy the dashboard!
 ![dashboard preview](https://github.com/rasika/time-checker/blob/master/doc/images/dashboard.png?raw=true)
