@@ -45,7 +45,7 @@ kubectl scale --replicas=3 deploy time-checker-deployment
 kubectl set image deploy time-checker-deployment time-checker-deployment=time-checker:2.0.0-SNAPSHOT
 ```
 
-3. Undo RollOut K8 Deployment: You can scale up/down base you need using;
+3. Undo RollOut K8 Deployment: You can scale up/down base your need using;
 ```
 kubectl rollout undo deploy time-checker-deployment
 ```
