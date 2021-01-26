@@ -2,7 +2,7 @@
 An scalable springboot application that runs on K8 cluster
 
 ## Getting Started
-Pre-requisites:
+### Pre-requisites:
 - Java8
 - Docker `v20.10.2` or higher
 - Kubernetes `v1.19.3` or higher
@@ -50,7 +50,7 @@ kubectl set image deploy time-checker-deployment time-checker-deployment=time-ch
 kubectl rollout undo deploy time-checker-deployment
 ```
 
-## Enable Analytics
+## Monitoring K8 Deployment
 This application is already configured with Prometeus and Grafana using K8 artifacts. You need only to import recommended dashboard(or any dashboard) with few clicks to make this work.
 1. Visit http://localhost:31002/login and login with default user credentials `admin/admin`
 2. Visit http://localhost:31002/dashboard/import and **load** dashboard with id `13625`([preview](https://grafana.com/grafana/dashboards/13625))
