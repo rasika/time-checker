@@ -60,7 +60,7 @@ This application is already configured with Prometeus and Grafana using K8 artif
 <img alt="import dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/import.png?raw=true" width="640" />
 
 4. Enjoy the dashboard!
-![dashboard preview]("https://github.com/rasika/time-checker/blob/master/doc/images/dashboard.png?raw=true)
+![dashboard preview](https://github.com/rasika/time-checker/blob/master/doc/images/dashboard.png?raw=true)
 
 ## Tests & Code Coverage
 - **JUnit Tests** written for the SpringBoot application functionality can be found in package [src/test/java/com/example/demo/](https://github.com/rasika/time-checker/blob/master/src/test/java/com/example/demo/)
