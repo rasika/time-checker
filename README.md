@@ -1,3 +1,5 @@
+[![GitHub last commit](https://img.shields.io/github/last-commit/ballerina-platform/ballerina-lang.svg)](https://github.com/ballerina-platform/ballerina-lang/commits/master)
+  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 # Time-Checker v1.0.0
 An scalable pseudo springboot application that runs on K8 cluster
 
