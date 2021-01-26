@@ -8,44 +8,21 @@ tasks.withType(JavaCompile) {
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-test {
-    useJUnitPlatform()
-
-    afterSuite { suite, result ->
-        result.exception?.printStackTrace()
-    }
-
-    testLogging {
-        // this will only change --warn flag behaviour
-        warn {
-            events = ["failed", "skipped"]
-            exceptionFormat "full"
-        }
-    }
-}
-
 spotbugsMain {
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "low"
     it.effort "max"
     it.reportLevel "low"
     it.reports {
         xml.enabled false
         html.enabled true
     }
-    reportsDir = file("$project.buildDir/reports/spotbugs")
-    def excludeFile = file("spotbugs-exclude.xml")
-    if (excludeFile.exists()) {
+    def excludeFile = file('spotbugs-exclude.xml')
+    if(excludeFile.exists()) {
         it.excludeFilter = excludeFile
-    }
-    reports {
-        text.enabled = true
     }
 }
 
 spotbugsTest {
-    enabled = false
+    it.enabled = false
 }
 
 task validateSpotbugs() {
@@ -66,5 +43,22 @@ spotbugsMain.finalizedBy validateSpotbugs
 jacocoTestReport {
     reports {
         xml.enabled true
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+
+    afterSuite { suite, result ->
+        result.exception?.printStackTrace()
+    }
+
+    testLogging {
+        // this will only change --warn flag behaviour
+        warn {
+            events = ["failed", "skipped"]
+            exceptionFormat "full"
+        }
     }
 }
