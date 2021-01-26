@@ -1,5 +1,8 @@
 # Time-Checker v1.0.0
-An scalable springboot application that runs on K8 cluster
+An scalable pseudo springboot application that runs on K8 cluster
+
+## Higher Level Microservices Architecture
+<img alt="load dashboard" src="https://github.com/rasika/time-checker/blob/master/doc/images/architecture.png?raw=true" width="640" />
 
 ## Getting Started
 ### Pre-requisites:
@@ -66,6 +69,10 @@ This application is already configured with Prometeus and Grafana using K8 artif
 - **JUnit Tests** written for the SpringBoot application functionality can be found in package [src/test/java/com/example/demo/](https://github.com/rasika/time-checker/blob/master/src/test/java/com/example/demo/)
 - **Test-coverage** report is available upon command `./gradelw test` and reports will be generated in `build/reports/tests/test/index.html` path.
 - **Code quality** checks are assesed with spot-bugs and reports are generated in `build/reports/spotbugs/main.html` path.
+
+## Contributions
+Feel free to contribute into this repository. There are areas such as CI/CD improvements that can be done into the build flow to make the deployment flawless.
+Git PRs are warmly welcome!
 
 ## License
 This code is distributed under Apache license 2.0.
