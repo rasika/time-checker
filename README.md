@@ -50,6 +50,15 @@ kubectl set image deploy time-checker-deployment time-checker-deployment=time-ch
 kubectl rollout undo deploy time-checker-deployment
 ```
 
+## Enable Analytics
+This application is already configured with Prometeus and Grafana using K8 artifacts. You need only to import recommended dashboard(or any dashboard) with few clicks to make this work.
+1. Visit http://localhost:31002/login and login with default user credentials `admin/admin`
+2. Visit http://localhost:31002/dashboard/import and **load** dashboard with id `13625`([preview](https://grafana.com/grafana/dashboards/13625))
+
+3. Select datasources as `promethius` for both dropdowns and **import** dashboard
+4. Enjoy the dashboard!
+
+
 ## Tests & Code Coverage
 - **JUnit Tests** written for the SpringBoot application functionality can be found in package [src/test/java/com/example/demo/](https://github.com/rasika/time-checker/blob/master/src/test/java/com/example/demo/)
 - **Test-coverage** report is available upon command `./gradelw test` and reports will be generated in `build/reports/tests/test/index.html` path.

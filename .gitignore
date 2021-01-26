@@ -24,7 +24,7 @@ bin/
 *.ipr
 out/
 build/
-deployments/*.yml
+deployments/*.yaml
 .idea/
 !**/src/main/**/out/
 !**/src/test/**/out/
