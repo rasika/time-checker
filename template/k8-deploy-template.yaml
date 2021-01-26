@@ -77,3 +77,151 @@ spec:
             - containerPort: 8080
               protocol: "TCP"
       nodeSelector: {}
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  annotations: { }
+  labels:
+    app: "prometheus"
+  name: "prometheus-deployment"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "prometheus"
+  template:
+    metadata:
+      annotations: { }
+      labels:
+        app: "prometheus"
+    spec:
+      containers:
+        - image: prom/prometheus
+          imagePullPolicy: "IfNotPresent"
+          name: "prometheus-deployment"
+          ports:
+            - containerPort: 9090
+              protocol: "TCP"
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus/"
+          volumeMounts:
+            - name: prometheus-config-volume
+              mountPath: /etc/prometheus/
+            - name: prometheus-storage-volume
+              mountPath: /prometheus/
+      volumes:
+        - name: prometheus-config-volume
+          configMap:
+            defaultMode: 420
+            name: prometheus-server-conf
+
+        - name: prometheus-storage-volume
+          emptyDir: { }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: prometheus
+  name: prometheus-svc
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 9090
+      nodePort: 31001
+  selector:
+    app: prometheus
+  type: NodePort
+status:
+  loadBalancer: { }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+  labels:
+    name: prometheus-server-conf
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval: 5s
+      evaluation_interval: 5s
+    scrape_configs:
+      - job_name: 'spring-actuator'
+        metrics_path: '/actuator/prometheus'
+        scrape_interval: 5s
+        static_configs:
+        - targets: ['time-checker-svc:8080']
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grafana-deployment
+  name: grafana-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana-deployment
+  template:
+    metadata:
+      labels:
+        app: grafana-deployment
+    spec:
+      containers:
+        - env: []
+          image: grafana/grafana:7.3.5
+          name: grafana
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: grafana-datasources
+              readOnly: false
+      volumes:
+        - name: grafana-datasources
+          secret:
+            secretName: grafana-datasources
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grafana-deployment
+  name: grafana-svc
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+      nodePort: 31002
+  selector:
+    app: grafana-deployment
+  type: NodePort
+status:
+  loadBalancer: { }
+---
+apiVersion: v1
+data:
+  datasources.yaml: ewogICAgImFwaVZlcnNpb24iOiAxLAogICAgImRhdGFzb3VyY2VzIjogWwogICAgICAgIHsKICAgICAgICAgICAgImFjY2VzcyI6ICJwcm94eSIsCiAgICAgICAgICAgICJlZGl0YWJsZSI6IGZhbHNlLAogICAgICAgICAgICAibmFtZSI6ICJwcm9tZXRoZXVzIiwKICAgICAgICAgICAgIm9yZ0lkIjogMSwKICAgICAgICAgICAgInR5cGUiOiAicHJvbWV0aGV1cyIsCiAgICAgICAgICAgICJ1cmwiOiAiaHR0cDovL3Byb21ldGhldXMtc3ZjLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiLAogICAgICAgICAgICAidmVyc2lvbiI6IDEKICAgICAgICB9CiAgICBdCn0=
+kind: Secret
+metadata:
+  name: grafana-datasources
+type: Opaque
